@@ -1,0 +1,26 @@
+[Début]
+   ↓
+Demander nom du joueur
+   ↓
+Menu principal :
+   ├── Nouvelle partie
+   ├── Consulter historique et/ou charger une partie
+   └── Quitter
+   ↓
+Si "Nouvelle partie" :
+   ↓
+Boucle sur catégories (5 thèmes)
+   ├── Poser questions (20 par thème)
+   ├── Calculer score
+   ├── Affronter Boss du thème
+   └── Si réussite → passer au thème suivant
+   ↓
+Si tous les thèmes réussis :
+   ↓
+→ Obtenir le "Clavier d'Or"
+   ↓
+Sauvegarder partie + score
+   ↓
+Retour au menu principal
+   ↓
+[Fin]
