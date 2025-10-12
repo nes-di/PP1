@@ -16,18 +16,36 @@ def main():
     largeur = 120
     afficher_menu(largeur)
     from joueur import ajouter_ou_trouver_joueur, liste_joueur
+    from quizz import quiz_2_joueurs
     while True:
         choice = input("Choisissez une option (1-3 ou 'm' pour menu principal): ".center(largeur))
         if choice == 'm':
             return main()
         elif choice == '1':
-            print()
-            res = ajouter_ou_trouver_joueur(largeur)
-            if res == 'menu':
+            print("\nMode de jeu :")
+            print("1. Solo")
+            print("2. 2 Joueurs")
+            mode = input("Choisissez un mode (1-2 ou 'm' pour menu principal): ".center(largeur))
+            if mode == 'm':
                 return main()
-            print()
-            # importer quizz ici
-            break
+            elif mode == '1':
+                res = ajouter_ou_trouver_joueur(largeur)
+                if res == 'menu':
+                    return main()
+                print()
+                # Appeler le quiz pour le mode solo ici
+                break
+            elif mode == '2':
+                print("\nEntrez les pseudos des joueurs :")
+                pseudo1 = input("Pseudo du Joueur 1 : ".center(largeur))
+                pseudo2 = input("Pseudo du Joueur 2 : ".center(largeur))
+                print(f"Bienvenue {pseudo1} et {pseudo2} ! Préparez-vous à jouer.")
+                print()
+                quiz_2_joueurs(pseudo1, pseudo2)
+                break
+            else:
+                print("Choix invalide. Réessayez.".center(largeur))
+                print()
         elif choice == '2':
             if not liste_joueur:
                 print("Aucune partie enregistrée.".center(largeur))
