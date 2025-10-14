@@ -37,7 +37,7 @@ def creer_base():
 # Fonction pour enregistrer une partie dans la base de données
 # - pseudo : le pseudo du joueur
 # - score : le score obtenu par le joueur
-def enregistrer_partie(pseudo, score):
+def enregistrer_partie(pseudo, score, questions_repondues=0, ids_questions_repondues=""):
     conn = sqlite3.connect("Projet/data/progression.db")
     cursor = conn.cursor()
 
@@ -50,10 +50,14 @@ def enregistrer_partie(pseudo, score):
 
     # Mettre à jour ou insérer la dernière étape du joueur
     cursor.execute("""
-    INSERT INTO parties (joueur_id, score)
-    VALUES (?, ?)
-    ON CONFLICT(joueur_id) DO UPDATE SET score=excluded.score, date_partie=CURRENT_TIMESTAMP
-    """, (joueur_id, score))
+    INSERT INTO parties (joueur_id, score, questions_repondues, ids_questions_repondues)
+    VALUES (?, ?, ?, ?)
+    ON CONFLICT(joueur_id) DO UPDATE SET 
+        score=excluded.score, 
+        questions_repondues=excluded.questions_repondues, 
+        ids_questions_repondues=excluded.ids_questions_repondues, 
+        date_partie=CURRENT_TIMESTAMP
+    """, (joueur_id, score, questions_repondues, ids_questions_repondues))
 
     conn.commit()
     conn.close()
