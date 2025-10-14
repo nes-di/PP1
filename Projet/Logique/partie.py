@@ -11,10 +11,38 @@ def charger_questions():
     with open("Projet/Modèle/quizz.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
+def charger_questions_par_theme(theme):
+    theme_files = {
+        "Culture Générale": "Projet/Modèle/quizz_culture_générale.json",
+        "Géographie": "Projet/Modèle/quizz_géographie.json",
+        "Maths": "Projet/Modèle/quizz_maths.json",
+        "Science": "Projet/Modèle/quizz_science.json",
+        "Sports": "Projet/Modèle/quizz_sports.json"
+    }
+
+    if theme in theme_files:
+        with open(theme_files[theme], "r", encoding="utf-8") as f:
+            return json.load(f)
+    else:
+        raise ValueError("Thème non valide")
+
 # Fonction principale pour jouer une partie
 # - pseudo : nom du joueur
 def jouer_partie(pseudo):
-    questions = charger_questions()  # Charge les questions depuis le fichier JSON
+    print("Choisissez un thème :".center(120))
+    themes = ["Culture Générale", "Géographie", "Maths", "Science", "Sports"]
+    for i, theme in enumerate(themes, start=1):
+        print(f"{i}. {theme}".center(120))
+
+    choix = int(input("Entrez le numéro de votre choix : ".center(120)))
+    if 1 <= choix <= len(themes):
+        theme_choisi = themes[choix - 1]
+        questions = charger_questions_par_theme(theme_choisi)  # Charge les questions du thème choisi
+    else:
+        print("Choix invalide. Retour au menu principal.".center(120))
+        afficher_menu(120)
+        return
+
     scores = {pseudo: 0}  # Initialisation des scores pour le joueur
 
     # Décompte avant de commencer la première question

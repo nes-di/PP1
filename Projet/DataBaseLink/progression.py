@@ -18,12 +18,14 @@ def creer_base():
     # Supprimer la table des parties si elle existe
     cursor.execute('DROP TABLE IF EXISTS parties')
 
-    # Création de la table des parties avec la contrainte UNIQUE sur joueur_id
+    # Création de la table des parties avec des colonnes supplémentaires
     cursor.execute('''
     CREATE TABLE parties (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         joueur_id INTEGER UNIQUE,
         score INTEGER,
+        questions_repondues INTEGER DEFAULT 0,
+        ids_questions_repondues TEXT DEFAULT '',
         date_partie TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(joueur_id) REFERENCES joueurs(id)
     )
