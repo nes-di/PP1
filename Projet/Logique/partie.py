@@ -23,7 +23,14 @@ def charger_questions_par_theme(theme):
 
     if theme in theme_files:
         with open(theme_files[theme], "r", encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+            if isinstance(data, dict) and "quizz" in data:
+                for item in data["quizz"]:
+                    if "questions" in item:
+                        return item["questions"]  # Retourne la liste des questions
+                raise ValueError("Aucune clé 'questions' trouvée dans 'quizz'.")
+            else:
+                raise ValueError("Le fichier JSON ne contient pas de clé 'quizz' valide.")
     else:
         raise ValueError("Thème non valide")
 
@@ -61,8 +68,8 @@ def jouer_partie(pseudo, score_initial=0, ids_questions_repondues_initial=[]):
         # Affiche le numéro de la question et le nombre total de questions
         print(f"Question {index}/20".center(120))
         print("\n" + q["question"].center(120))  # Affiche la question
-        for option in q["options"]:
-            print(option.center(120))  # Affiche les options de réponse
+        for key, value in q["options"].items():
+            print(f"{key}: {value}".center(120))  # Affiche les options de réponse avec les lettres et les réponses
 
         # Fonction pour gérer le compte à rebours
         def countdown(stop_event):
@@ -96,7 +103,7 @@ def jouer_partie(pseudo, score_initial=0, ids_questions_repondues_initial=[]):
             print("Retour au menu principal...".center(120))
             input("Appuyez sur une touche pour continuer...".center(120))
             afficher_menu(120)  # Retour au menu principal
-            return
+            return scores  # Return scores when exiting early after saving the game
 
         if not reponses and not stop_event.is_set():
             # Si aucune réponse n'est donnée et que le chrono est écoulé
