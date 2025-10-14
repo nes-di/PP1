@@ -1,20 +1,5 @@
 [
     {
-        "question": "Quelle est la capitale de la France?",
-        "options": ["A/U. Paris", "Z/I. Lyon", "E/O. Marseille", "R/P. Toulouse"],
-        "answer": "A"
-    },
-    {
-        "question": "Combien font 5 x 5?",
-        "options": ["A/U. 10", "Z/I. 25", "E/O. 20", "R/P. 15"],
-        "answer": "Z"
-    },
-    {
-        "question": "Quelle est la couleur du ciel?",
-        "options": ["A/U. Bleu", "Z/I. Vert", "E/O. Rouge", "R/P. Jaune"],
-        "answer": "A"
-    },
-    {
         "question": "Quel est le plus grand pays du monde par superficie?",
         "options": ["A/U. Russie", "Z/I. Canada", "E/O. Chine", "R/P. États-Unis"],
         "answer": "A"

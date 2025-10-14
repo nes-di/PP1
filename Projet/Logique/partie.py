@@ -17,6 +17,12 @@ def jouer_partie(pseudo):
     questions = charger_questions()  # Charge les questions depuis le fichier JSON
     scores = {pseudo: 0}  # Initialisation des scores pour le joueur
 
+    # Décompte avant de commencer la première question
+    print("Préparez-vous, le quiz commence dans :".center(120))
+    for i in range(3, 0, -1):
+        print(f"{i}...".center(120))
+        time.sleep(1)
+
     for index, q in enumerate(questions, start=1):
         os.system('cls' if os.name == 'nt' else 'clear')  # Efface l'écran pour chaque nouvelle question
 
