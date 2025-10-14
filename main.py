@@ -62,7 +62,6 @@ async def main():
                         print(f"Partie chargée pour le joueur: {pseudo}. Score: {joueur[1]} points. Tapez sur Entrée pour continuer.".center(largeur))
                         input()
                         print()
-                        # importer quizz ici
                         return
                 print("Aucun joueur trouvé avec ce pseudo. Réessayez.".center(largeur))
                 print()
