@@ -1,6 +1,6 @@
-from modules.menu import afficher_menu
-from modules.partie import jouer_partie
-from progression import creer_base, enregistrer_partie, recuperer_historique
+from Console.menu import afficher_menu
+from Logique.partie import jouer_partie
+from DataBaseLink.progression import creer_base, enregistrer_partie, recuperer_historique
 
 # Fonction principale pour gérer le menu et les interactions utilisateur
 async def main():

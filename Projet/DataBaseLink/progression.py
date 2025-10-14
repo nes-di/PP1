@@ -4,7 +4,7 @@ import sqlite3
 # - joueurs : stocke les pseudos des joueurs
 # - parties : enregistre les scores des parties jouées
 def creer_base():
-    conn = sqlite3.connect("data/progression.db")
+    conn = sqlite3.connect("Projet/data/progression.db")
     cursor = conn.cursor()
 
     # Création de la table des joueurs
@@ -33,7 +33,7 @@ def creer_base():
 # - pseudo : le pseudo du joueur
 # - score : le score obtenu par le joueur
 def enregistrer_partie(pseudo, score):
-    conn = sqlite3.connect("data/progression.db")
+    conn = sqlite3.connect("Projet/data/progression.db")
     cursor = conn.cursor()
 
     # Insérer le joueur s'il n'existe pas déjà
@@ -53,10 +53,8 @@ def enregistrer_partie(pseudo, score):
     conn.commit()
     conn.close()
 
-# Fonction pour récupérer l'historique des parties
-# Retourne une liste des parties triées par date décroissante
 def recuperer_historique():
-    conn = sqlite3.connect("data/progression.db")
+    conn = sqlite3.connect("Projet/data/progression.db")
     cursor = conn.cursor()
 
     # Récupérer uniquement la dernière étape de chaque joueur

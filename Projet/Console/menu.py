@@ -1,11 +1,4 @@
 def afficher_menu(largeur=120):
-    """
-    Affiche le menu principal du jeu avec des options pour commencer une nouvelle partie,
-    charger une partie existante ou quitter le jeu.
-
-    Args:
-        largeur (int): La largeur du menu. Par défaut, elle est définie sur 120.
-    """
     import os
     # Efface l'écran pour afficher un menu propre
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -21,7 +14,7 @@ def afficher_menu(largeur=120):
     print("|________/|________/       \\______/ |________/|__/  |__/    \\_/    |______/|________/|__/  |__/      |_______/     \\______/ |__/  |__/".center(largeur))
 
     # Ligne de séparation
-    print("="*largeur)
+    print("=========================================================================================================================================")
 
     # Options du menu
     print("1. Nouvelle partie".center(largeur))

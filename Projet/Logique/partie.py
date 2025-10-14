@@ -2,12 +2,13 @@ import json
 import os
 import threading
 import time
-from progression import enregistrer_partie
+from DataBaseLink.progression import enregistrer_partie
+from Console.menu import afficher_menu
 
 # Fonction pour charger les questions depuis le fichier JSON
 # Retourne une liste de dictionnaires contenant les questions et réponses
 def charger_questions():
-    with open("data/quizz.json", "r", encoding="utf-8") as f:
+    with open("Projet/Modèle/quizz.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 # Fonction principale pour jouer une partie
@@ -78,7 +79,6 @@ def jouer_partie(pseudo):
     # Retour au menu principal
     print("Appuyez sur une touche pour retourner au menu principal...".center(120))
     input()
-    from modules.menu import afficher_menu
     afficher_menu(120)  # Relance le menu principal
 
     return scores
