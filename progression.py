@@ -3,7 +3,6 @@ import sqlite3
 # Fonction pour créer la base de données et les tables nécessaires
 # - joueurs : stocke les pseudos des joueurs
 # - parties : enregistre les scores des parties jouées
-
 def creer_base():
     conn = sqlite3.connect("data/progression.db")
     cursor = conn.cursor()
@@ -33,7 +32,6 @@ def creer_base():
 # Fonction pour enregistrer une partie dans la base de données
 # - pseudo : le pseudo du joueur
 # - score : le score obtenu par le joueur
-
 def enregistrer_partie(pseudo, score):
     conn = sqlite3.connect("data/progression.db")
     cursor = conn.cursor()
@@ -45,23 +43,32 @@ def enregistrer_partie(pseudo, score):
     cursor.execute("SELECT id FROM joueurs WHERE pseudo = ?", (pseudo,))
     joueur_id = cursor.fetchone()[0]
 
-    # Enregistrer la partie avec l'ID du joueur
-    cursor.execute("INSERT INTO parties (joueur_id, score) VALUES (?, ?)", (joueur_id, score))
+    # Mettre à jour ou insérer la dernière étape du joueur
+    cursor.execute("""
+    INSERT INTO parties (joueur_id, score)
+    VALUES (?, ?)
+    ON CONFLICT(joueur_id) DO UPDATE SET score=excluded.score, date_partie=CURRENT_TIMESTAMP
+    """, (joueur_id, score))
 
     conn.commit()
     conn.close()
 
 # Fonction pour récupérer l'historique des parties
 # Retourne une liste des parties triées par date décroissante
-
 def recuperer_historique():
     conn = sqlite3.connect("data/progression.db")
     cursor = conn.cursor()
 
+    # Récupérer uniquement la dernière étape de chaque joueur
     cursor.execute('''
     SELECT joueurs.pseudo, parties.score, parties.date_partie
     FROM parties
     JOIN joueurs ON parties.joueur_id = joueurs.id
+    WHERE parties.date_partie = (
+        SELECT MAX(date_partie)
+        FROM parties p2
+        WHERE p2.joueur_id = parties.joueur_id
+    )
     ORDER BY parties.date_partie DESC
     ''')
 
