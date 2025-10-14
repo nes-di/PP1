@@ -13,5 +13,105 @@
         "question": "Quelle est la couleur du ciel?",
         "options": ["A/U. Bleu", "Z/I. Vert", "E/O. Rouge", "R/P. Jaune"],
         "answer": "A"
+    },
+    {
+        "question": "Quel est le plus grand pays du monde par superficie?",
+        "options": ["A/U. Russie", "Z/I. Canada", "E/O. Chine", "R/P. États-Unis"],
+        "answer": "A"
+    },
+    {
+        "question": "Combien de couleurs y a-t-il dans un arc-en-ciel?",
+        "options": ["A/U. 5", "Z/I. 6", "E/O. 7", "R/P. 8"],
+        "answer": "E"
+    },
+    {
+        "question": "Quel est l'animal terrestre le plus rapide?",
+        "options": ["A/U. Guépard", "Z/I. Antilope", "E/O. Lion", "R/P. Autruche"],
+        "answer": "A"
+    },
+    {
+        "question": "Quelle planète est surnommée la planète rouge?",
+        "options": ["A/U. Mars", "Z/I. Jupiter", "E/O. Vénus", "R/P. Saturne"],
+        "answer": "A"
+    },
+    {
+        "question": "Quel est le métal le plus précieux?",
+        "options": ["A/U. Or", "Z/I. Platine", "E/O. Rhodium", "R/P. Argent"],
+        "answer": "E"
+    },
+    {
+        "question": "Combien de temps met la lumière du Soleil pour atteindre la Terre?",
+        "options": ["A/U. 8 minutes", "Z/I. 1 heure", "E/O. 24 heures", "R/P. Instantanément"],
+        "answer": "A"
+    },
+    {
+        "question": "Quel est le plus grand océan du monde?",
+        "options": ["A/U. Atlantique", "Z/I. Pacifique", "E/O. Indien", "R/P. Arctique"],
+        "answer": "Z"
+    },
+    {
+        "question": "Quel est le plus petit pays du monde?",
+        "options": ["A/U. Monaco", "Z/I. Vatican", "E/O. Malte", "R/P. Andorre"],
+        "answer": "Z"
+    },
+    {
+        "question": "Quel est le symbole chimique de l'or?",
+        "options": ["A/U. Au", "Z/I. Ag", "E/O. Pt", "R/P. Hg"],
+        "answer": "A"
+    },
+    {
+        "question": "Quel est le plus grand désert du monde?",
+        "options": ["A/U. Sahara", "Z/I. Antarctique", "E/O. Gobi", "R/P. Kalahari"],
+        "answer": "Z"
+    },
+    {
+        "question": "Quel est le plus grand organe du corps humain?",
+        "options": ["A/U. Cœur", "Z/I. Peau", "E/O. Foie", "R/P. Poumons"],
+        "answer": "Z"
+    },
+    {
+        "question": "Quel est le premier élément du tableau périodique?",
+        "options": ["A/U. Hydrogène", "Z/I. Hélium", "E/O. Lithium", "R/P. Carbone"],
+        "answer": "A"
+    },
+    {
+        "question": "Quel est le plus grand mammifère marin?",
+        "options": ["A/U. Dauphin", "Z/I. Requin-baleine", "E/O. Baleine bleue", "R/P. Cachalot"],
+        "answer": "E"
+    },
+    {
+        "question": "Quel est le plus haut sommet du monde?",
+        "options": ["A/U. Mont Everest", "Z/I. K2", "E/O. Kangchenjunga", "R/P. Lhotse"],
+        "answer": "A"
+    },
+    {
+        "question": "Quel est le plus grand fleuve du monde?",
+        "options": ["A/U. Amazone", "Z/I. Nil", "E/O. Yangzi Jiang", "R/P. Mississippi"],
+        "answer": "A"
+    },
+    {
+        "question": "Quel est le plus vieil arbre vivant connu?",
+        "options": ["A/U. Séquoia", "Z/I. Pin Bristlecone", "E/O. Chêne", "R/P. Baobab"],
+        "answer": "Z"
+    },
+    {
+        "question": "Quel est le plus grand volcan actif?",
+        "options": ["A/U. Mauna Loa", "Z/I. Etna", "E/O. Vésuve", "R/P. Stromboli"],
+        "answer": "A"
+    },
+    {
+        "question": "Quel est le plus grand lac d'eau douce?",
+        "options": ["A/U. Lac Supérieur", "Z/I. Lac Victoria", "E/O. Lac Baïkal", "R/P. Lac Tanganyika"],
+        "answer": "A"
+    },
+    {
+        "question": "Quel est le plus grand nombre premier connu?",
+        "options": ["A/U. 2^82,589,933-1", "Z/I. 2^77,232,917-1", "E/O. 2^74,207,281-1", "R/P. 2^57,885,161-1"],
+        "answer": "A"
+    },
+    {
+        "question": "Quel est le plus grand récif corallien?",
+        "options": ["A/U. Grande Barrière de Corail", "Z/I. Récif de Belize", "E/O. Récif de Nouvelle-Calédonie", "R/P. Récif de Floride"],
+        "answer": "A"
     }
 ]

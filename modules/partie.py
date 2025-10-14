@@ -26,7 +26,9 @@ def jouer_partie(pseudo1, pseudo2=None):
                     break
                 print(f"Temps restant : {i} secondes".center(80), end="\r")
                 time.sleep(1)
-            print(" " * 80, end="\r")  # Efface la ligne après le chrono
+            if not stop_event.is_set():
+                print("Temps écoulé ! Vous gagnez 0 points.".center(80))
+                stop_event.set()  # Signale que le chrono est terminé
 
         stop_event = threading.Event()
         timer_thread = threading.Thread(target=countdown, args=(stop_event,))
@@ -41,16 +43,23 @@ def jouer_partie(pseudo1, pseudo2=None):
 
         timer_thread.join()
 
-        if not reponses:
-            print("Temps écoulé, aucune réponse enregistrée.".center(80))
+        if not reponses and not stop_event.is_set():
+            print("Temps écoulé, aucune réponse enregistrée. Vous gagnez 0 points.".center(80))
         else:
             reponse1 = reponses[0] if len(reponses) > 0 else None
             reponse2 = reponses[1] if len(reponses) > 1 else None
 
             if reponse1 and reponse1.upper() == q["answer"]:
                 scores[pseudo1] += 100
+                print(f"Bonne réponse, {pseudo1}! Vous gagnez 100 points.".center(80))
+            else:
+                print(f"Mauvaise réponse, {pseudo1}. La bonne réponse était {q['answer']}!".center(80))
+
             if pseudo2 and reponse2 and reponse2.upper() == q["answer"]:
                 scores[pseudo2] += 100
+                print(f"Bonne réponse, {pseudo2}! Vous gagnez 100 points.".center(80))
+            elif pseudo2:
+                print(f"Mauvaise réponse, {pseudo2}. La bonne réponse était {q['answer']}!".center(80))
 
         print(f"Score actuel : {pseudo1} - {scores[pseudo1]} points".center(80))
         if pseudo2:
