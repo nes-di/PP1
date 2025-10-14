@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 # Fonction pour créer la base de données et les tables nécessaires
 # - joueurs : stocke les pseudos des joueurs
@@ -81,4 +82,11 @@ def recuperer_historique():
 
     historique = cursor.fetchall()
     conn.close()
-    return historique
+
+    # Ajuster les heures pour le fuseau horaire (+2 heures)
+    historique_ajuste = []
+    for pseudo, score, date_partie in historique:
+        date_ajustee = datetime.datetime.strptime(date_partie, "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours=2)
+        historique_ajuste.append((pseudo, score, date_ajustee.strftime("%Y-%m-%d %H:%M:%S")))
+
+    return historique_ajuste
