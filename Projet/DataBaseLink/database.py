@@ -1,8 +1,6 @@
 import sqlite3
-import datetime
 
 def creer_base():
-    """Crée la base de données SQLite"""
     conn = sqlite3.connect("game.db")
     cursor = conn.cursor()
     
@@ -23,14 +21,12 @@ def creer_base():
     conn.close()
 
 def enregistrer_partie(pseudo, theme, score, questions_repondues, ids_questions):
-    """Enregistre une partie"""
     conn = sqlite3.connect("game.db")
     cursor = conn.cursor()
     
-    # Supprimer ancienne partie en cours pour ce pseudo
     cursor.execute("DELETE FROM parties WHERE pseudo = ? AND statut = 'en_cours'", (pseudo,))
     
-    # Convertir la liste d'IDs en chaîne
+
     if isinstance(ids_questions, list):
         ids_str = ','.join(map(str, ids_questions))
     else:
@@ -47,7 +43,6 @@ def enregistrer_partie(pseudo, theme, score, questions_repondues, ids_questions)
     print(f"✅ Partie sauvegardée: {pseudo}, Score: {score}, Questions: {questions_repondues}/20")
 
 def charger_partie(pseudo):
-    """Charge une partie en cours"""
     conn = sqlite3.connect("game.db")
     cursor = conn.cursor()
     
@@ -63,7 +58,7 @@ def charger_partie(pseudo):
     
     if result:
         theme, score, questions_repondues, ids_questions = result
-        # Convertir la chaîne d'IDs en liste d'entiers
+
         if ids_questions and ids_questions.strip():
             ids_list = [int(x.strip()) for x in ids_questions.split(',') if x.strip()]
         else:
