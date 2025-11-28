@@ -3,7 +3,7 @@ import os
 import threading
 import time
 import random
-from DataBaseLink.progression import enregistrer_partie
+from DataBaseLink.database import enregistrer_partie
 from Console.menu import afficher_menu
 
 # Fonction pour charger les questions depuis le fichier JSON
@@ -14,11 +14,11 @@ def charger_questions():
 
 def charger_questions_par_theme(theme):
     theme_files = {
-        "Culture Générale": "Projet/Modèle/quizz_culture_générale.json",
-        "Géographie": "Projet/Modèle/quizz_géographie.json",
-        "Maths": "Projet/Modèle/quizz_maths.json",
-        "Science": "Projet/Modèle/quizz_science.json",
-        "Sports": "Projet/Modèle/quizz_sports.json"
+        "Culture Générale": "Modèle/quizz_culture_générale.json",
+        "Géographie": "Modèle/quizz_géographie.json",
+        "Maths": "Modèle/quizz_maths.json",
+        "Science": "Modèle/quizz_science.json",
+        "Sports": "Modèle/quizz_sports.json"
     }
 
     if theme in theme_files:
@@ -36,22 +36,60 @@ def charger_questions_par_theme(theme):
 
 # Fonction principale pour jouer une partie
 # - pseudo : nom du joueur
-def jouer_partie(pseudo, score_initial=0, ids_questions_repondues_initial=[]):
-    print("Choisissez un thème :".center(120))
+def jouer_partie(pseudo, score_initial=0, ids_questions_repondues_initial=[], theme_sauvegarde=None):
     themes = ["Culture Générale", "Géographie", "Maths", "Science", "Sports"]
-    for i, theme in enumerate(themes, start=1):
-        print(f"{i}. {theme}".center(120))
-
-    choix = int(input("Entrez le numéro de votre choix : ".center(120)))
-    if 1 <= choix <= len(themes):
-        theme_choisi = themes[choix - 1]
-        questions = charger_questions_par_theme(theme_choisi)  # Charge les questions du thème choisi
-        questions = [q for q in questions if str(q['id']) not in ids_questions_repondues_initial]  # Filtrer les questions déjà répondues
-        questions = random.sample(questions, min(20 - len(ids_questions_repondues_initial), len(questions)))  # Sélectionner les questions restantes
-    else:
-        print("Choix invalide. Retour au menu principal.".center(120))
+    theme_choisi = None
+    
+    if theme_sauvegarde:
+        # Reprise de partie : utiliser le thème sauvegardé
+        if theme_sauvegarde in themes:
+            theme_choisi = theme_sauvegarde
+            print(f"Reprise de la partie avec le thème : {theme_choisi}".center(120))
+        else:
+            print(f"Thème sauvegardé invalide ({theme_sauvegarde}). Veuillez choisir un nouveau thème :".center(120))
+    
+    if not theme_choisi:
+        # Nouvelle partie ou thème invalide : demander le choix
+        print("Choisissez un thème :".center(120))
+        for i, theme in enumerate(themes, start=1):
+            print(f"{i}. {theme}".center(120))
+        
+        try:
+            choix_str = input("Entrez le numéro de votre choix (1-5) : ".center(120)).strip()
+            choix = int(choix_str)
+            if 1 <= choix <= len(themes):
+                theme_choisi = themes[choix - 1]
+                print(f"Thème choisi : {theme_choisi}".center(120))
+            else:
+                print(f"Choix invalide ({choix}). Doit être entre 1 et {len(themes)}.".center(120))
+                input("Appuyez sur une touche pour retourner au menu principal...".center(120))
+                afficher_menu(120)
+                return {pseudo: score_initial}
+        except ValueError:
+            print(f"Entrée invalide. Veuillez entrer un nombre entre 1 et {len(themes)}.".center(120))
+            input("Appuyez sur une touche pour retourner au menu principal...".center(120))
+            afficher_menu(120)
+            return {pseudo: score_initial}
+        
+    questions = charger_questions_par_theme(theme_choisi)  # Charge les questions du thème choisi
+    questions = [q for q in questions if q['id'] not in ids_questions_repondues_initial]  # Filtrer les questions déjà répondues
+    
+    # Calculer le nombre de questions restantes à poser
+    questions_restantes = 20 - len(ids_questions_repondues_initial)
+    
+    if questions_restantes <= 0:
+        print("Cette partie est déjà terminée !".center(120))
+        input("Appuyez sur une touche pour retourner au menu principal...".center(120))
         afficher_menu(120)
-        return
+        return {pseudo: score_initial}
+    
+    if len(questions) == 0:
+        print("Aucune nouvelle question disponible pour ce thème.".center(120))
+        input("Appuyez sur une touche pour retourner au menu principal...".center(120))
+        afficher_menu(120)
+        return {pseudo: score_initial}
+        
+    questions = random.sample(questions, min(questions_restantes, len(questions)))  # Sélectionner les questions restantes
 
     scores = {pseudo: score_initial}  # Initialisation des scores pour le joueur
     ids_questions_repondues = ids_questions_repondues_initial.copy()
@@ -62,7 +100,7 @@ def jouer_partie(pseudo, score_initial=0, ids_questions_repondues_initial=[]):
         print(f"{i}...".center(120))
         time.sleep(1)
 
-    for index, q in enumerate(questions, start=len(ids_questions_repondues) + 1):
+    for index, q in enumerate(questions, start=len(ids_questions_repondues_initial) + 1):
         os.system('cls' if os.name == 'nt' else 'clear')  # Efface l'écran pour chaque nouvelle question
 
         # Affiche le numéro de la question et le nombre total de questions
@@ -97,13 +135,12 @@ def jouer_partie(pseudo, score_initial=0, ids_questions_repondues_initial=[]):
 
         if reponses == 's':
             # Sauvegarder la partie
-            ids_questions_repondues.append(str(q['id']))
-            enregistrer_partie(pseudo, scores[pseudo], len(ids_questions_repondues), ",".join(ids_questions_repondues))
+            enregistrer_partie(pseudo, theme_choisi, scores[pseudo], len(ids_questions_repondues), ids_questions_repondues)
             print("Partie sauvegardée. Vous pouvez la reprendre plus tard.".center(120))
             print("Retour au menu principal...".center(120))
             input("Appuyez sur une touche pour continuer...".center(120))
             afficher_menu(120)  # Retour au menu principal
-            return scores  # Return scores when exiting early after saving the game
+            return scores
 
         if not reponses and not stop_event.is_set():
             # Si aucune réponse n'est donnée et que le chrono est écoulé
@@ -117,22 +154,22 @@ def jouer_partie(pseudo, score_initial=0, ids_questions_repondues_initial=[]):
                 print(f"Bonne réponse, {pseudo}! Vous gagnez 100 points.".center(120))
             else:
                 print(f"Mauvaise réponse, {pseudo}. La bonne réponse était {q['answer']}!".center(120))
-
+        
         # Ajouter l'ID de la question répondue
-        ids_questions_repondues.append(str(q['id']))
+        ids_questions_repondues.append(q['id'])
 
         # Affichage des scores actuels après chaque question
         print(f"Score actuel : {pseudo} - {scores[pseudo]} points".center(120))
         print("Appuyez sur une touche pour continuer...".center(120))
         input()
 
-        # Enregistrement des scores dans la base de données après chaque question
-        enregistrer_partie(pseudo, scores[pseudo], len(ids_questions_repondues), ",".join(ids_questions_repondues))
-
     # Affichage du score final
     os.system('cls' if os.name == 'nt' else 'clear')
     print("Félicitations ! Vous avez terminé le quiz.".center(120))
     print(f"Score final de {pseudo} : {scores[pseudo]} points".center(120))
+    
+    # Sauvegarder la partie terminée
+    enregistrer_partie(pseudo, theme_choisi, scores[pseudo], len(ids_questions_repondues), ids_questions_repondues)
 
     # Retour au menu principal
     print("Appuyez sur une touche pour retourner au menu principal...".center(120))
