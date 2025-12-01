@@ -31,6 +31,5 @@ def main():
             break
         else:
             print("Choix invalide. Réessayez.".center(largeur))
-
-if __name__ == "__main__":
-    main()
+main()
+#enlevé if __name__ == "__main__"

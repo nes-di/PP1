@@ -14,11 +14,11 @@ def charger_questions():
 # Charge les questions en fonction du thème choisi
 def charger_questions_par_theme(theme):
     theme_files = {
-        "Culture Générale": "Modèle/quizz_culture_générale.json",
-        "Géographie": "Modèle/quizz_géographie.json",
-        "Maths": "Modèle/quizz_maths.json",
-        "Science": "Modèle/quizz_science.json",
-        "Sports": "Modèle/quizz_sports.json"
+        "Culture Générale": "Projet/Modèle/quizz_culture_générale.json",
+        "Géographie": "Projet/Modèle/quizz_géographie.json",
+        "Maths": "Projet/Modèle/quizz_maths.json",
+        "Science": "Projet/Modèle/quizz_science.json",
+        "Sports": "Projet/Modèle/quizz_sports.json"
     }
 
     if theme in theme_files:
@@ -27,7 +27,7 @@ def charger_questions_par_theme(theme):
             if isinstance(data, dict) and "quizz" in data:
                 for item in data["quizz"]:
                     if "questions" in item:
-                        return item["questions"]  # Retourne la liste des questions
+                        return item["questions"]
                 raise ValueError("Aucune clé 'questions' trouvée dans 'quizz'.")
             else:
                 raise ValueError("Le fichier JSON ne contient pas de clé 'quizz' valide.")
